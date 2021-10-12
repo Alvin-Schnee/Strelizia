@@ -62,6 +62,15 @@ function debug_WaitForValidation {
 	fi
 }
 
+function printSuccessOrFailure {
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Done${DEFAULT}."
+    else
+        echo -e "${RED}Failed${DEFAULT}. Exiting." 
+        exit 1
+    fi
+}
+
 #############################################################
 
 ####################### Main Functions ######################
@@ -78,18 +87,12 @@ function printHelp {
 }
 
 function formatPartitions {
-	if [[ $(checkBootmode) = "BIOS" ]]; then
-		echo y | mkfs.ext4 $disk"1" > /dev/null
-		echo y | mkfs.ext4 $disk"3" > /dev/null
-		echo y | mkfs.ext4 $disk"4" > /dev/null
-	else
-		parted --script $disk \
-		mklabel gpt \
-		mkpart primary fat32 1MiB 513MiB \
-		mkpart primary linux-swap 513MiB 5120MiB \
-		mkpart primary ext4 5120MiB 25600MiB \
-		mkpart primary ext4 25600MiB 100%
-	fi
+	parted --script $disk \
+	mklabel gpt \
+	mkpart primary fat32 1MiB 513MiB \
+	mkpart primary linux-swap 513MiB 5120MiB \
+	mkpart primary ext4 5120MiB 25600MiB \
+	mkpart primary ext4 25600MiB 100%
 }
 
 function initializeSwap {
@@ -170,15 +173,21 @@ if [[ "$disk" = "DEFAULT" ]]; then
 	exit 1
 fi
 
+if [[ $(checkBootmode) = "BIOS" ]]; then
+	echo "$logHeader Bootmode appears to be BIOS. $programName can't currently handle BIOS-based systems. Exiting."
+	exit 1
+else
+	echo "$logHeader Bootmode appears to be $(checkBootmode). Exiting."
+	exit 0
+fi
 
 #############################################################
 
+####################### Partitioning ########################
 
-
-echo -e "\n$logHeader Formatting partitions ..."
+echo -ne "\n$logHeader Formatting partitions ..."
 formatPartitions
-echo -e "$logHeader Formatting partitions ... ${GREEN}done${DEFAULT}."
-
+printSuccessOrFailure
 debug_WaitForValidation
 
 
