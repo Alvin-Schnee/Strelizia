@@ -91,9 +91,13 @@ function formatPartitions {
 	mklabel gpt \
 	mkpart ESP fat32 50MiB 512MiB \
 	set 1 boot on \
-	mkpart primary linux-swap 512MiB 5GiB \
-	mkpart primary ext4 5GiB 25GiB \
-	mkpart primary ext4 25GiB 100%
+	mkpart SWAP linux-swap 512MiB 5GiB \
+	mkpart / ext4 5GiB 25GiB \
+	mkpart /home ext4 25GiB 100%
+	
+	mkfs.fat -F32 $disk"1"
+	mkfs.ext4 $disk"3"
+	mkfs.ext4 $disk"4"	
 
 	printSuccessOrFailure
 	debug_WaitForValidation
