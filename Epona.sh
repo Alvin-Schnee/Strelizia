@@ -63,7 +63,6 @@ function printHelp {
 	echo -e "Arguments :"
 	echo -e "\t-b (alternatively --check-bootmode) : Checks and displays whether the boot mode is BIOS or UEFI."
 	echo -e "\t-d (alternatively --debug) : Displays information useful for debugging, and enables breakpoints after each command."
-	echo -e "\t-db (alternatively --dual-boot) : Enables dualbooting alongside an already-existing Windows 10 installation."
 	echo -e "\t-h (alternatively --help : Displays help concerning the command."
 }
 
@@ -127,6 +126,10 @@ echo "uwu1 !"
 while test $# -gt 0
 do
 	case "$1" in
+		-b | --check-bootmode)
+			echo "$logHeader Bootmode appears to be $(checkBootmode)."
+			exit 0
+		;;
 		-d | --debug)
 			debug=true
 		;;
@@ -145,15 +148,15 @@ do
 			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
 				disk="$1"
 				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
-				echo -e "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
+				echo "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
 				
 			else 
-				echo -e "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
+				echo "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
 				exit 1
 			fi
 		;;
 		-* | --* | *)
-			echo -e "$logHeader Argument $1 not defined. Exiting."
+			echo "$logHeader Argument $1 not defined. Exiting."
 			exit 1
 		;;
 	esac
