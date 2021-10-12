@@ -44,11 +44,75 @@ space='         '
 
 ###################### Helper Functions #####################
 
-
+function checkBootmode {
+	if [ ! -d "/sys/firmware/efi/efivars" ]; then
+		echo "BIOS"
+	else
+		echo "UEFI"
+	fi
+}
 
 #############################################################
 
 ####################### Main Functions ######################
+
+function printHelp {
+	echo -e "$0"
+	echo -e "Syntax :"
+	echo -e "\t$0 <argument>"
+	echo -e "Arguments :"
+	echo -e "\t-b (alternatively --check-bootmode) : Checks and displays whether the boot mode is BIOS or UEFI."
+	echo -e "\t-d (alternatively --debug) : Displays information useful for debugging, and enables breakpoints after each command."
+	echo -e "\t-db (alternatively --dual-boot) : Enables dualbooting alongside an already-existing Windows 10 installation."
+	echo -e "\t-h (alternatively --help : Displays help concerning the command."
+}
+
+
+
+function formatPartitions {
+	if [[ $(checkBootmode) = "BIOS" ]]; then
+		echo y | mkfs.ext4 $disk"1" > /dev/null
+		echo y | mkfs.ext4 $disk"3" > /dev/null
+		echo y | mkfs.ext4 $disk"4" > /dev/null
+	else
+		parted $disk mklabel gpt
+		cfdisk $disk
+		mkfs.ext4 $disk"1"
+		mkfs.ext4 $disk"4"
+		if [ "$dualbooting" = false ]; then
+			mkfs.fat -F32 $disk"2"
+		fi
+	fi
+}
+
+function initializeSwap {
+	if [[ $(checkBootmode) = "BIOS" ]]; then
+		mkswap $disk"2"
+		swapon $disk"2"
+	else
+		mkswap $disk"3"
+		swapon $disk"3"
+	fi
+}
+
+function mountPartitions {
+	if [[ $(checkBootmode) = "BIOS" ]]; then
+		mount $disk"3" /mnt
+		mkdir /mnt/{boot,home}
+		mount $disk"1" /mnt/boot
+		mount $disk"4" /mnt/home
+	else
+		mount $disk"1" /mnt
+		mkdir /mnt/{boot,home}
+		mkdir /mnt/boot/efi
+		if [ "$dualbooting" = true ]; then
+			mount UEFIPartition /mnt/boot/efi
+		else
+			mount $disk"2" /mnt/boot/efi
+		fi
+		mount $disk"4" /mnt/home
+	fi
+}
 
 function handleArguments {
     while test $# -gt 0
@@ -97,6 +161,7 @@ function handleArguments {
 #################### Argument Validation ####################
 
 handleArguments
+echo "uwu !"
 
 #############################################################
 
