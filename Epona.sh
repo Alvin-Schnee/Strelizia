@@ -67,7 +67,7 @@ function printHelp {
 	echo -e "\t-b (alternatively --check-bootmode) : Checks and displays whether the boot mode is BIOS or UEFI."
 	echo -e "\t-d (alternatively --debug) : Displays information useful for debugging, and enables breakpoints after each command."
 	echo -e "\t-h (alternatively --help : Displays help concerning the command."
-	echo -e "\t--disk /dev/sdX\" : Defines the disk you want to install Archlinux on. Replace X with the corresponding letter."
+	echo -e "\t--disk /dev/sdX : Defines the disk you want to install Archlinux on. Replace X with the corresponding letter."
 }
 
 function formatPartitions {
@@ -138,16 +138,11 @@ do
 			exit 0
 		;;
 		--disk)
-
-			### Read the disk name passed after --disk, and check its existence.
-
 			shift
-			disk=${1:5:8}
-			#command=$(lsblk -io KNAME | sed -n "/${partition}$/p")
 
-			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
+			if [[ ${1:5:8} = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
 				disk="$1"
-				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
+				#sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
 				echo "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
 				
 			else 
@@ -170,11 +165,8 @@ done
 if [[ "$disk" = "DEFAULT" ]]; then
 	echo "$logHeader Installation disk not set. Use \"$programName --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
 	exit 1
-else 
-	echo "AWAWA"
 fi
 
-echo "UWU"
 
 #############################################################
 
