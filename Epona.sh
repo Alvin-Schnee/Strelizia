@@ -38,11 +38,7 @@ RED='\033[1;31m'
 DEFAULT='\033[0m'
 
 logHeader="${RED}STRELIZIA${DEFAULT} >"
-
-space=''
-for i in `seq 1 ${#"$0"}`; do 
-    space+=' ' 
-done
+space='         '
 
 #############################################################
 
