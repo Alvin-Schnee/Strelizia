@@ -93,7 +93,7 @@ fi
 
 ###############################################
 
-:'
+: '
 
 echo -e "\n${RED}STRELIZIA${DEFAULT} > Formatting partitions ..."
 formatPartitions
