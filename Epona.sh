@@ -195,6 +195,8 @@ mountPartitions
 
 
 swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
+rmdir -R /mnt/boot
+rmdir -R /mnt/home
 umount -R /mnt
 
 : '
