@@ -37,7 +37,7 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 DEFAULT='\033[0m'
 
-programName=$0
+programName="Epona"
 logHeader="${RED}$programName${DEFAULT} >"
 
 #############################################################
