@@ -89,8 +89,9 @@ function printHelp {
 function formatPartitions {
 	parted --script $disk \
 	mklabel gpt \
-	mkpart primary fat32 0m 1000MiB \
-	mkpart primary linux-swap 1000MiB 5GiB \
+	mkpart ESP fat32 0MiB 512MiB \
+	set 1 boot on \
+	mkpart primary linux-swap 512MiB 5GiB \
 	mkpart primary ext4 5GiB 25GiB \
 	mkpart primary ext4 25GiB 100%
 
