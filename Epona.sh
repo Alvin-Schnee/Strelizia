@@ -25,73 +25,93 @@
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠹⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠈⠙⠛⠛⠛⠛⠋⠁⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 
-
 # pacman -Sy git github-cli dos2unix
 # gh auth login
 # gh repo clone Alvin-Schnee/Strelizia
 
-source Sources/header.foxeh
 
-#install yay
-#pacman --noconfirm -S fbv bdf-unifont wget
-#cd /home/fenrir
-#git clone https://github.com/uobikiemukot/yaft.git
-#cd yaft/
-#make mkfont_bdf
-#./glyph_builder.sh unifont
-#make install 
+###################### Global Variables #####################
 
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+DEFAULT='\033[0m'
 
-####################################################################################################################################################################################################
+logHeader="${RED}STRELIZIA${DEFAULT} >"
 
-############# Argument Validation #############
-
-while test $# -gt 0
-	do
-		case "$1" in
-			-d | --debug)
-				debug=true
-			;;
-			-h | --help)
-				printHelp
-				exit 0
-			;;
-			--disk)
-
-				### Read the disk name passed after --disk, and check its existence.
-
-				shift
-				disk=${1:5:8}
-				#command=$(lsblk -io KNAME | sed -n "/${partition}$/p")
-
-				if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
-					disk="$1"
-					sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
-					echo -e "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
-				
-				else 
-					echo -e "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
-					exit 1
-				fi
-			;;
-			-* | --* | *)
-				echo -e "$logHeader Argument $1 not defined. Exiting."
-				exit 1
-			;;
-		esac
-	shift
+space=''
+for i in `seq 1 ${#$0}`; do 
+    space+=' ' 
 done
 
-###############################################
+#############################################################
 
-################ Primary checks ###############
+###################### Helper Functions #####################
+
+
+
+#############################################################
+
+####################### Main Functions ######################
+
+function handleArguments {
+    while test $# -gt 0
+    do
+        case "$1" in
+            -d | --debug)
+                debug=true
+            ;;
+            -h | --help)
+                printHelp
+                exit 0
+            ;;
+            --disk)
+
+                ### Read the disk name passed after --disk, and check its existence.
+
+                shift
+                disk=${1:5:8}
+                #command=$(lsblk -io KNAME | sed -n "/${partition}$/p")
+
+                if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
+                    disk="$1"
+                    sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
+                    echo -e "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
+                
+                else 
+                    echo -e "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
+                    exit 1
+                fi
+            ;;
+            -* | --* | *)
+                echo -e "$logHeader Argument $1 not defined. Exiting."
+                exit 1
+            ;;
+        esac
+        shift
+    done
+}
+
+#############################################################
+
+#############################################################
+#############################################################
+#############################################################
+
+#################### Argument Validation ####################
+
+handleArguments
+
+#############################################################
+
+###################### Primary checks #######################
 
 if [[ "$disk" = "DEFAULT" ]]; then
 	echo -e "$logHeader Installation disk not set. Use \"FTK_ArchInstaller --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
 	exit 1
 fi
 
-###############################################
+#############################################################
 
 : '
 
