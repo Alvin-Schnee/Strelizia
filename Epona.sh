@@ -193,10 +193,10 @@ formatPartitions
 echo -ne "\n$logHeader Initializing swap ... "
 initializeSwap
 
-echo -e "\n$logHeader Mounting partitions ..."
+echo -ne "\n$logHeader Mounting partitions ... "
 mountPartitions
 
-
+#############################################################
 
 
 swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
