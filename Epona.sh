@@ -107,22 +107,16 @@ function initializeSwap {
 }
 
 function mountPartitions {
-	if [[ $(checkBootmode) = "BIOS" ]]; then
-		mount $disk"3" /mnt
-		mkdir /mnt/{boot,home}
-		mount $disk"1" /mnt/boot
-		mount $disk"4" /mnt/home
-	else
-		mount $disk"1" /mnt
-		mkdir /mnt/{boot,home}
-		mkdir /mnt/boot/efi
-		if [ "$dualbooting" = true ]; then
-			mount UEFIPartition /mnt/boot/efi
-		else
-			mount $disk"2" /mnt/boot/efi
-		fi
-		mount $disk"4" /mnt/home
-	fi
+	mount $disk"3" /mnt
+	
+	mkdir /mnt/{boot,home}
+	mkdir /mnt/boot/efi
+	
+	mount $disk"1" /mnt/boot/efi
+	mount $disk"4" /mnt/home
+
+	printSuccessOrFailure
+	debug_WaitForValidation
 }
 
 #############################################################
@@ -194,28 +188,30 @@ formatPartitions
 echo -ne "\n$logHeader Initializing swap ... "
 initializeSwap
 
-##### REMOVE THIS FOR THE FINAL VERSION
-swapoff $disk"2"
+echo -e "\n$logHeader Mounting partitions ..."
+mountPartitions
+
+
+
+
+swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
+umount -R /mnt
 
 : '
 
 
 
-echo -e "\n${RED}STRELIZIA${DEFAULT} > Mounting partitions ..."
-mountPartitions
-echo -e "${RED}STRELIZIA${DEFAULT} > Mounting partitions ... ${GREEN}done${DEFAULT}."
 
-debug_WaitForValidation
 
-echo -e "\n${RED}STRELIZIA${DEFAULT} > Enabling time synchronization ..."
+echo -e "\n$logHeader Enabling time synchronization ..."
 systemctl start systemd-timesyncd
-echo -e "${RED}STRELIZIA${DEFAULT} > Time synchronization ${GREEN}enabled${DEFAULT}."
+echo -e "$logHeader Time synchronization ${GREEN}enabled${DEFAULT}."
 
 debug_WaitForValidation
 
-echo -e "\n${RED}STRELIZIA${DEFAULT} > Creating mirrorlist ..."
+echo -e "\n$logHeader Creating mirrorlist ..."
 curl -s "https://www.archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
-echo -e "${RED}STRELIZIA${DEFAULT} > The mirrorlist has been ${GREEN}successfully${DEFAULT} created."
+echo -e "$logHeader The mirrorlist has been ${GREEN}successfully${DEFAULT} created."
 
 debug_WaitForValidation
 
