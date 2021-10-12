@@ -67,9 +67,8 @@ function printHelp {
 	echo -e "\t-b (alternatively --check-bootmode) : Checks and displays whether the boot mode is BIOS or UEFI."
 	echo -e "\t-d (alternatively --debug) : Displays information useful for debugging, and enables breakpoints after each command."
 	echo -e "\t-h (alternatively --help : Displays help concerning the command."
+	echo -e "\t--disk /dev/sdX\" : Defines the disk you want to install Archlinux on. Replace X with the corresponding letter."
 }
-
-
 
 function formatPartitions {
 	if [[ $(checkBootmode) = "BIOS" ]]; then
@@ -171,7 +170,11 @@ done
 if [[ "$disk" = "DEFAULT" ]]; then
 	echo "$logHeader Installation disk not set. Use \"$programName --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
 	exit 1
+else 
+	echo "AWAWA"
 fi
+
+echo "UWU"
 
 #############################################################
 
