@@ -85,9 +85,9 @@ function formatPartitions {
 	else
 		parted --script $disk \
 		mklabel gpt \
-		mkpart primary fat32 1MiB 513MiB
-		mkpart primary linux-swap 513MiB 5120MiB
-		mkpart primary ext4 5120MiB 25600MiB
+		mkpart primary fat32 1MiB 513MiB \
+		mkpart primary linux-swap 513MiB 5120MiB \
+		mkpart primary ext4 5120MiB 25600MiB \
 		mkpart primary ext4 25600MiB 100%
 	fi
 }
