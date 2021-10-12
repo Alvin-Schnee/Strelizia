@@ -37,8 +37,8 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 DEFAULT='\033[0m'
 
-logHeader="${RED}STRELIZIA${DEFAULT} >"
-space='         '
+programName=$0
+logHeader="${RED}$programName${DEFAULT} >"
 
 #############################################################
 
@@ -57,9 +57,9 @@ function checkBootmode {
 ####################### Main Functions ######################
 
 function printHelp {
-	echo -e "$0"
+	echo -e "$programName"
 	echo -e "Syntax :"
-	echo -e "\t$0 <argument>"
+	echo -e "\t$programName <argument>"
 	echo -e "Arguments :"
 	echo -e "\t-b (alternatively --check-bootmode) : Checks and displays whether the boot mode is BIOS or UEFI."
 	echo -e "\t-d (alternatively --debug) : Displays information useful for debugging, and enables breakpoints after each command."
@@ -132,7 +132,6 @@ do
 		;;
 		-h | --help)
 			printHelp
-			echo "uwu2 !"
 			exit 0
 		;;
 		--disk)
