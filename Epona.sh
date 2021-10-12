@@ -89,10 +89,10 @@ function printHelp {
 function formatPartitions {
 	parted --script $disk \
 	mklabel gpt \
-	mkpart primary fat32 1MiB 513MiB \
-	mkpart primary linux-swap 513MiB 5120MiB \
-	mkpart primary ext4 5120MiB 25600MiB \
-	mkpart primary ext4 25600MiB 100%
+	mkpart primary fat32 0m 1000MiB \
+	mkpart primary linux-swap 1000MiB 5GiB \
+	mkpart primary ext4 5GiB 25GiB \
+	mkpart primary ext4 25GiB 100%
 
 	printSuccessOrFailure
 	debug_WaitForValidation
@@ -111,7 +111,7 @@ function mountPartitions {
 	
 	mkdir /mnt/{boot,home}
 	mkdir /mnt/boot/efi
-	
+
 	mount $disk"1" /mnt/boot/efi
 	mount $disk"4" /mnt/home
 
