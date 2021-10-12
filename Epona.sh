@@ -191,8 +191,11 @@ fi
 echo -ne "\n$logHeader Formatting partitions ... "
 formatPartitions
 
-echo -ne "\n$logHeader > Initializing swap ... "
+echo -ne "\n$logHeader Initializing swap ... "
 initializeSwap
+
+##### REMOVE THIS FOR THE FINAL VERSION
+swapoff $disk"2"
 
 : '
 
