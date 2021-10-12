@@ -126,6 +126,7 @@ function handleArguments {
             ;;
             -h | --help)
                 printHelp
+		echo "uwu !"
                 exit 0
             ;;
             --disk)
