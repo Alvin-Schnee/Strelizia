@@ -121,8 +121,6 @@ function mountPartitions {
 
 #################### Argument Validation ####################
 
-echo "uwu1 !"
-
 while test $# -gt 0
 do
 	case "$1" in
@@ -163,16 +161,18 @@ do
 	shift
 done
 
-echo "uwu3 !"
-
 #############################################################
 
 ###################### Primary checks #######################
 
+echo "wafu"
+
 if [[ "$disk" = "DEFAULT" ]]; then
-	echo -e "$logHeader Installation disk not set. Use \"FTK_ArchInstaller --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
+	echo "$logHeader Installation disk not set. Use \"FTK_ArchInstaller --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
 	exit 1
 fi
+
+echo "fuwa"
 
 #############################################################
 
