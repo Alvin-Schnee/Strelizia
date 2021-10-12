@@ -40,6 +40,9 @@ DEFAULT='\033[0m'
 programName="Epona"
 logHeader="${RED}$programName${DEFAULT} >"
 
+disk="DEFAULT"
+debug=false
+
 #############################################################
 
 ###################### Helper Functions #####################
