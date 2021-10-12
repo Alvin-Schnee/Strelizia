@@ -99,8 +99,8 @@ function formatPartitions {
 }
 
 function initializeSwap {
-	mkswap $disk"2"
-	swapon $disk"2"
+	mkswap $disk"2" &> /dev/null
+	swapon $disk"2" &> /dev/null
 
 	printSuccessOrFailure
 	debug_WaitForValidation
