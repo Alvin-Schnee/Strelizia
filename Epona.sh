@@ -114,50 +114,6 @@ function mountPartitions {
 	fi
 }
 
-function handleArguments {
-
-	echo "uwu !"
-
-    while test $# -gt 0
-    do
-        case "$1" in
-            -d | --debug)
-                debug=true
-            ;;
-            -h | --help)
-                printHelp
-		echo "uwu !"
-                exit 0
-            ;;
-            --disk)
-
-                ### Read the disk name passed after --disk, and check its existence.
-
-                shift
-                disk=${1:5:8}
-                #command=$(lsblk -io KNAME | sed -n "/${partition}$/p")
-
-                if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
-                    disk="$1"
-                    sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
-                    echo -e "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
-                
-                else 
-                    echo -e "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
-                    exit 1
-                fi
-            ;;
-            -* | --* | *)
-                echo -e "$logHeader Argument $1 not defined. Exiting."
-                exit 1
-            ;;
-        esac
-        shift
-    done
-
-    echo "uwu !"
-}
-
 #############################################################
 
 #############################################################
@@ -166,7 +122,46 @@ function handleArguments {
 
 #################### Argument Validation ####################
 
-handleArguments
+echo "uwu1 !"
+
+while test $# -gt 0
+do
+	case "$1" in
+		-d | --debug)
+			debug=true
+		;;
+		-h | --help)
+			printHelp
+			echo "uwu2 !"
+			exit 0
+		;;
+		--disk)
+
+			### Read the disk name passed after --disk, and check its existence.
+
+			shift
+			disk=${1:5:8}
+			#command=$(lsblk -io KNAME | sed -n "/${partition}$/p")
+
+			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
+				disk="$1"
+				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
+				echo -e "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
+				
+			else 
+				echo -e "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
+				exit 1
+			fi
+		;;
+		-* | --* | *)
+			echo -e "$logHeader Argument $1 not defined. Exiting."
+			exit 1
+		;;
+	esac
+	shift
+done
+
+echo "uwu3 !"
 
 #############################################################
 
