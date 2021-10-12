@@ -168,14 +168,10 @@ done
 
 ###################### Primary checks #######################
 
-echo "wafu"
-
 if [[ "$disk" = "DEFAULT" ]]; then
-	echo "$logHeader Installation disk not set. Use \"FTK_ArchInstaller --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
+	echo "$logHeader Installation disk not set. Use \"$programName --disk /dev/sdX\" to indicate the disk you want to install Archlinux on."
 	exit 1
 fi
-
-echo "fuwa"
 
 #############################################################
 
