@@ -176,9 +176,6 @@ fi
 if [[ $(checkBootmode) = "BIOS" ]]; then
 	echo "$logHeader Bootmode appears to be BIOS. $programName can't currently handle BIOS-based systems. Exiting."
 	exit 1
-else
-	echo "$logHeader Bootmode appears to be $(checkBootmode). Exiting."
-	exit 0
 fi
 
 #############################################################
