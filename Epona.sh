@@ -89,7 +89,7 @@ function printHelp {
 function formatPartitions {
 	parted --script $disk \
 	mklabel gpt \
-	mkpart ESP fat32 50MiB 512MiB \
+	mkpart ESP fat32 1MiB 512MiB \
 	set 1 boot on \
 	mkpart SWAP linux-swap 512MiB 5GiB \
 	mkpart / ext4 5GiB 25GiB \
