@@ -83,21 +83,18 @@ function formatPartitions {
 		echo y | mkfs.ext4 $disk"3" > /dev/null
 		echo y | mkfs.ext4 $disk"4" > /dev/null
 	else
-		parted $disk mklabel gpt
-		cfdisk $disk
-		mkfs.ext4 $disk"1"
-		mkfs.ext4 $disk"4"
+		parted --script $disk \
+		mklabel gpt \
+		mkpart primary fat32 1MiB 513MiB
+		mkpart primary linux-swap 513MiB 5120MiB
+		mkpart primary ext4 5120MiB 25600MiB
+		mkpart primary ext4 25600MiB 100%
 	fi
 }
 
 function initializeSwap {
-	if [[ $(checkBootmode) = "BIOS" ]]; then
-		mkswap $disk"2"
-		swapon $disk"2"
-	else
-		mkswap $disk"3"
-		swapon $disk"3"
-	fi
+	mkswap $disk"2"
+	swapon $disk"2"
 }
 
 function mountPartitions {
@@ -179,7 +176,7 @@ fi
 
 
 echo -e "\n$logHeader Formatting partitions ..."
-#formatPartitions
+formatPartitions
 echo -e "$logHeader Formatting partitions ... ${GREEN}done${DEFAULT}."
 
 debug_WaitForValidation
