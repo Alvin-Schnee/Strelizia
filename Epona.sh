@@ -93,11 +93,17 @@ function formatPartitions {
 	mkpart primary linux-swap 513MiB 5120MiB \
 	mkpart primary ext4 5120MiB 25600MiB \
 	mkpart primary ext4 25600MiB 100%
+
+	printSuccessOrFailure
+	debug_WaitForValidation
 }
 
 function initializeSwap {
 	mkswap $disk"2"
 	swapon $disk"2"
+
+	printSuccessOrFailure
+	debug_WaitForValidation
 }
 
 function mountPartitions {
@@ -182,19 +188,15 @@ fi
 
 ####################### Partitioning ########################
 
-echo -ne "\n$logHeader Formatting partitions ..."
+echo -ne "\n$logHeader Formatting partitions ... "
 formatPartitions
-printSuccessOrFailure
-debug_WaitForValidation
 
+echo -ne "\n$logHeader > Initializing swap ... "
+initializeSwap
 
 : '
 
-echo -e "\n${RED}STRELIZIA${DEFAULT} > Initializing swap ..."
-initializeSwap
-echo -e "${RED}STRELIZIA${DEFAULT} > Initializing swap ... ${GREEN}done${DEFAULT}."
 
-debug_WaitForValidation
 
 echo -e "\n${RED}STRELIZIA${DEFAULT} > Mounting partitions ..."
 mountPartitions
