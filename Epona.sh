@@ -95,9 +95,9 @@ function formatPartitions {
 	mkpart / ext4 5GiB 25GiB \
 	mkpart /home ext4 25GiB 100%
 	
-	mkfs.fat -F32 $disk"1"
-	mkfs.ext4 $disk"3"
-	mkfs.ext4 $disk"4"	
+	mkfs.fat -F32 $disk"1" &> /dev/null
+	mkfs.ext4 $disk"3" &> /dev/null
+	mkfs.ext4 $disk"4" &> /dev/null	
 
 	printSuccessOrFailure
 	debug_WaitForValidation
@@ -200,8 +200,6 @@ mountPartitions
 
 
 swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
-rmdir -R /mnt/boot
-rmdir -R /mnt/home
 umount -R /mnt
 
 : '
