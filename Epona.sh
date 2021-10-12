@@ -115,6 +115,9 @@ function mountPartitions {
 }
 
 function handleArguments {
+
+	echo "uwu !"
+
     while test $# -gt 0
     do
         case "$1" in
@@ -150,6 +153,8 @@ function handleArguments {
         esac
         shift
     done
+
+    echo "uwu !"
 }
 
 #############################################################
@@ -161,7 +166,6 @@ function handleArguments {
 #################### Argument Validation ####################
 
 handleArguments
-echo "uwu !"
 
 #############################################################
 
