@@ -139,14 +139,16 @@ do
 		;;
 		--disk)
 			shift
+			disk=${1:5:8}
 
-			if [[ ${1:5:8} = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
+			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
 				disk="$1"
 				#sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
 				echo "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
 				
 			else 
 				echo "$logHeader $1 does ${RED}not${DEFAULT} exist. Exiting."
+				disk="DEFAULT"
 				exit 1
 			fi
 		;;
