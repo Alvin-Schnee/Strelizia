@@ -259,7 +259,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -ne "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ./bin/FTK_Initializer
+arch-chroot /mnt ./FTK_Initializer
 printSuccessOrFailure
 debug_WaitForValidation
 
