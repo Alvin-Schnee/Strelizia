@@ -50,9 +50,6 @@ DEFAULT='\033[0m'
 programName="Strelizia"
 logHeader="${RED}$programName${DEFAULT} >"
 
-
-scriptpath="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-
 disk="DEFAULT"
 debug=false
 
@@ -253,8 +250,8 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-
-#dos2unix $scriptpath/FTK_Initializer
+chmod +x $scriptpath/FTK_Initializer
+dos2unix $scriptpath/FTK_Initializer
 cp $scriptpath/FTK_Initializer /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
