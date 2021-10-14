@@ -253,6 +253,8 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
+
+#dos2unix $scriptpath/FTK_Initializer
 cp $scriptpath/FTK_Initializer /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
@@ -262,7 +264,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -ne "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ./$scriptpath/FTK_Initializer
+arch-chroot /mnt $scriptpath/FTK_Initializer
 printSuccessOrFailure
 debug_WaitForValidation
 
