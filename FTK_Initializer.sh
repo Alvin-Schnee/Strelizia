@@ -61,20 +61,20 @@ function printSuccessOrFailure {
 #############################################################
 
 function initializeLocales {
-	echo -ne "\n$logHeader Initializing and generating system locales ..."
-	echo -ne "\n$logHeader \tLoading keyboard layout ... "
+	echo -ne "\n$logHeader Loading keyboard layout ... "
 
 	loadkeys fr-latin9 && echo -ne "KEYMAP=fr-latin9\nFONT=eurlatgr" > /etc/vconsole.conf
 	printSuccessOrFailure
 	
-	echo -ne "\n$logHeader \tSetting up en_US.UTF-8 as default locale ... "
+	echo -ne "\n$logHeader Setting up en_US.UTF-8 as default locale ... "
 	
 	echo -ne "LANG=en_US.UTF-8\nLC_COLLATE=C" > /etc/locale.conf	
 	sed -i '/^#en_US.UTF-8/ s/#//' /etc/locale.gen
 	printSuccessOrFailure
 
-	locale-gen
-	echo -e "\n$logHeader System locales have been ${GREEN}successfully${DEFAULT} initialized."
+	echo -ne "\n$logHeader Generating locales ... "
+	locale-gen &> /dev/null
+	printSuccessOrFailure
 }
 
 function setHostname {
@@ -206,7 +206,7 @@ function setupSublimeText {
 ### --- MAIN SCRIPT --- ###
 
 if [ $# -eq 0 ]; then
-	echo -ne "\n$logHeader Setting up system for its first start ...\n"
+	echo -e "\n$logHeader Setting up system for its first start."
 	initializeLocales
 	setTimezone
 	generateKernelImage
