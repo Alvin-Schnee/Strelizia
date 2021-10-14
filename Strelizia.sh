@@ -252,7 +252,7 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-cat -5
+ls -a
 
 chmod +x FTK_Initializer
 dos2unix FTK_Initializer
