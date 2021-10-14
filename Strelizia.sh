@@ -222,7 +222,7 @@ debug_WaitForValidation
 ######################## Mirrorlist #########################
 
 echo -e "\n$logHeader Creating mirrorlist ... "
-reflector --verbose --country 'France' -l 10 -p http --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country 'France' -l 8 -p http --sort rate --save /etc/pacman.d/mirrorlist &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
@@ -231,12 +231,12 @@ debug_WaitForValidation
 ####################### Installation ########################
 
 echo -ne "\n$logHeader Installing basic packages ..."
-pacstrap /mnt base base-devel pacman-contrib
+pacstrap /mnt base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
 echo -ne "\n$logHeader Installing advanced packages ... "
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
