@@ -222,7 +222,7 @@ debug_WaitForValidation
 ######################## Mirrorlist #########################
 
 echo -e "\n$logHeader Creating mirrorlist ... "
-reflector -l 50 -p http --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --country 'France' -l 10 -p http --sort rate --save /etc/pacman.d/mirrorlist
 printSuccessOrFailure
 debug_WaitForValidation
 
