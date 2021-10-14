@@ -246,11 +246,11 @@ printSuccessOrFailure
 debug_WaitForValidation
 
 echo -ne "\n$logHeader Downloading bootloader ... "
-pacstrap /mnt grub os-prober efibootmgr
+pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-cp /bin/FTK_Initializer /mnt/bin
+cp FTK_Initializer /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
 
