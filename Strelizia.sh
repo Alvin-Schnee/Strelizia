@@ -210,6 +210,37 @@ mountPartitions
 
 #############################################################
 
+###################### Time & Locales #######################
+
+echo -ne "\n$logHeader Enabling time synchronization ... "
+systemctl start systemd-timesyncd
+printSuccessOrFailure
+debug_WaitForValidation
+
+#############################################################
+
+######################## Mirrorlist #########################
+
+echo -e "\n$logHeader Creating mirrorlist ... "
+curl -s "https://www.archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
+printSuccessOrFailure
+debug_WaitForValidation
+
+#############################################################
+
+####################### Installation ########################
+
+echo -ne "\n$logHeader Installing basic packages ..."
+pacstrap /mnt base base-devel pacman-contrib
+printSuccessOrFailure
+debug_WaitForValidation
+
+echo -ne "\n$logHeader Installing advanced packages ... "
+pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh
+printSuccessOrFailure
+debug_WaitForValidation
+
+#############################################################
 
 swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
 umount -R /mnt
@@ -220,29 +251,11 @@ umount -R /mnt
 
 
 
-echo -e "\n$logHeader Enabling time synchronization ..."
-systemctl start systemd-timesyncd
-echo -e "$logHeader Time synchronization ${GREEN}enabled${DEFAULT}."
 
-debug_WaitForValidation
 
-echo -e "\n$logHeader Creating mirrorlist ..."
-curl -s "https://www.archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
-echo -e "$logHeader The mirrorlist has been ${GREEN}successfully${DEFAULT} created."
 
-debug_WaitForValidation
 
-echo -e "\n${RED}STRELIZIA${DEFAULT} > Installing basic packages ..."
-pacstrap /mnt base base-devel pacman-contrib
-echo -e "${RED}STRELIZIA${DEFAULT} > All basic packages have been ${GREEN}successfully${DEFAULT} installed."
 
-debug_WaitForValidation
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Installing advanced packages ...\n"
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > All advanced packages have been ${GREEN}successfully${DEFAULT} installed."
-
-debug_WaitForValidation
 
 echo -ne "\n${RED}STRELIZIA${DEFAULT} > Generating fstab ...\r"
 genfstab -U -p /mnt >> /mnt/etc/fstab
