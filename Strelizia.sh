@@ -230,72 +230,57 @@ debug_WaitForValidation
 
 ####################### Installation ########################
 
-echo -ne "\n$logHeader Installing basic packages ... "
+echo -ne "\n$logHeader Installing basic packages (this will take a while) ... "
 pacstrap /mnt base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-echo -ne "\n$logHeader Installing advanced packages ... "
+echo -ne "\n$logHeader Installing advanced packages (this will take a while) ... "
 pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh &> /dev/null
+printSuccessOrFailure
+debug_WaitForValidation
+
+echo -ne "\n$logHeader Generating fstab ... "
+genfstab -U -p /mnt >> /mnt/etc/fstab
+printSuccessOrFailure
+debug_WaitForValidation
+
+echo -ne "\n$logHeader Downloading bootloader ... "
+pacstrap /mnt grub os-prober efibootmgr
+printSuccessOrFailure
+debug_WaitForValidation
+
+cp /bin/FTK_Initializer /mnt/bin
+
+echo -e "\n$logHeader Initial installation is now over."
+
+#############################################################
+
+########################## Chroot ###########################
+
+echo -ne "\n$logHeader Chrooting into the system ... "
+arch-chroot /mnt ./bin/FTK_Initializer
 printSuccessOrFailure
 debug_WaitForValidation
 
 #############################################################
 
-swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
+####################### Finalization ########################
+
+echo -ne "\n$logHeader Unmounting auxiliary devices ... "
 umount -R /mnt
-
-: '
-
-
-
-
-
-
-
-
-
-
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Generating fstab ...\r"
-genfstab -U -p /mnt >> /mnt/etc/fstab
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > fstab has been ${GREEN}successfully${DEFAULT} generated.\r\n"
-
+printSuccessOrFailure
 debug_WaitForValidation
 
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Downloading bootloader ...\r"
-if [[ $(checkBootmode) = "BIOS" ]]; then
-	pacstrap /mnt grub os-prober
-else
-	pacstrap /mnt grub os-prober efibootmgr
-fi
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > The bootloader has been ${GREEN}successfully${DEFAULT} downloaded.\r\n"
-
-debug_WaitForValidation
-
-cp /bin/FTK_Initializer /mnt/bin
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Initial installation is now over.\n"
-
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Chrooting into the system ...\n"
-arch-chroot /mnt ./bin/FTK_Initializer
-
-debug_WaitForValidation
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Unmounting auxiliary devices ...\r"
-umount -R /mnt
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Unmounting auxiliary devices ... ${GREEN}done${DEFAULT}.\r\n"
-
-debug_WaitForValidation
-
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Countdown before rebooting : 3\r"
+echo -ne "\n$logHeader Countdown before rebooting : 3\r"
 sleep 1
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Countdown before rebooting : 2\r"
+echo -ne "\n$logHeader Countdown before rebooting : 2\r"
 sleep 1
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Countdown before rebooting : 1\r"
+echo -ne "\n$logHeader Countdown before rebooting : 1\r"
 sleep 1
-echo -ne "\n${RED}STRELIZIA${DEFAULT} > Rebooting ...                 \r"
+echo -ne "\n$logHeader Rebooting ...                 \r"
 reboot
 
-'
+#############################################################
+
+#swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
