@@ -250,7 +250,7 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-echo ${BASH_SOURCE[0]}
+echo "${BASH_SOURCE[0]} owo !"
 
 chmod +x ${BASH_SOURCE[0]}/FTK_Initializer
 dos2unix ${BASH_SOURCE[0]}/FTK_Initializer
