@@ -66,13 +66,13 @@ function initializeLocales {
 	loadkeys fr-latin9 && echo -ne "KEYMAP=fr-latin9\nFONT=eurlatgr" > /etc/vconsole.conf
 	printSuccessOrFailure
 	
-	echo -ne "\n$logHeader Setting up en_US.UTF-8 as default locale ... "
+	echo -ne "$logHeader Setting up en_US.UTF-8 as default locale ... "
 	
 	echo -ne "LANG=en_US.UTF-8\nLC_COLLATE=C" > /etc/locale.conf	
 	sed -i '/^#en_US.UTF-8/ s/#//' /etc/locale.gen
 	printSuccessOrFailure
 
-	echo -ne "\n$logHeader Generating locales ... "
+	echo -ne "$logHeader Generating locales ... "
 	locale-gen &> /dev/null
 	printSuccessOrFailure
 }
@@ -85,34 +85,30 @@ function setHostname {
 }
 
 function setTimezone {
-	echo -ne "\n$logHeader Setting up timezone ...\r"
-	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
-	if [ "$dualbooting" = false ]; then
-		hwclock --systohc --utc
-	fi
-	echo -ne "$logHeader Timezone ${GREEN}successfully${DEFAULT} set to \"Europe - Paris\".\r\n"
+	echo -ne "\n$logHeader Setting up timezone ... "
+	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime	
+	hwclock --systohc --utc
+	printSuccessOrFailure
 }
 
 function generateKernelImage {
-	echo -ne "\n$logHeader Generating kernel image ...\r"
-	mkinitcpio -p linux
-	echo -ne "\n$logHeader Kernel image ${GREEN}successfully${DEFAULT} generated.\r\n"
+	echo -ne "\n$logHeader Generating kernel image ... "
+	mkinitcpio -p linux &> /dev/null
+	printSuccessOrFailure
 }
 
 function installBootloader {
-	echo -ne "\n$logHeader Installing bootloader ...\r"
-	if [[ $(checkBootmode) = "BIOS" ]]; then
-		echo "Installing GRUB on $disk !! WAITING FOR CHECK, MASTER !!"
-		read
-		grub-install --no-floppy --recheck $disk
-	else
-		mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-		grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
-		mkdir /boot/efi/EFI/boot
-		cp /boot/efi/EFI/arch_grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
-	fi
+	echo -ne "\n$logHeader Installing bootloader ... "
+
+	pacman --noconfirm -Sy grub &> /dev/null
+
+	mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
+	mkdir /boot/efi/EFI/boot
+
+	cp /boot/efi/EFI/arch_grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
 	grub-mkconfig -o /boot/grub/grub.cfg
-	echo -ne "\n$logHeader Bootloader ${GREEN}successfully${DEFAULT} installed.\r\n"
+	printSuccessOrFailure
 }
 
 function initializeNetworkManager {
