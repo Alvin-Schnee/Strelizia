@@ -36,9 +36,13 @@
 # rm -rf Strelizia/.git
 # chmod +x Strelizia/Strelizia.sh
 # dos2unix Strelizia/Strelizia.sh
+# chmod +x Strelizia/FTK_Initializer.sh
+# dos2unix Strelizia/FTK_Initializer.sh
 # cd Strelizia/
-# ./Strelizia.sh
+# ./Strelizia.sh --disk /dev/sda
 # cd ..
+# swapoff /dev/sda2
+# umount -R /mnt
 
 ###################### Global Variables #####################
 
@@ -252,8 +256,6 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-chmod +x FTK_Initializer.sh
-dos2unix FTK_Initializer.sh &> /dev/null
 cp FTK_Initializer.sh /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
@@ -286,5 +288,3 @@ echo -ne "\n$logHeader Rebooting ...                 \r"
 reboot
 
 #############################################################
-
-#swapoff $disk"2"   ##### DEBUG ONLY - REMOVE THIS FOR THE FINAL VERSION
