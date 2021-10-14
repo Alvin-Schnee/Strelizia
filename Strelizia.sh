@@ -222,7 +222,7 @@ debug_WaitForValidation
 ######################## Mirrorlist #########################
 
 echo -e "\n$logHeader Creating mirrorlist ... "
-curl -s "https://www.archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - > /etc/pacman.d/mirrorlist
+reflector -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist
 printSuccessOrFailure
 debug_WaitForValidation
 
