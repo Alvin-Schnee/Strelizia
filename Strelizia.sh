@@ -50,6 +50,8 @@ DEFAULT='\033[0m'
 programName="Strelizia"
 logHeader="${RED}$programName${DEFAULT} >"
 
+DIRECTORY="$(cd "$(/usr/bin/dirname "${BASH_SOURCE[0]}")" && /bin/pwd)"
+
 disk="DEFAULT"
 debug=false
 
@@ -250,11 +252,11 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-echo "${BASH_SOURCE[0]} owo !"
+echo "$DIRECTORY owo !"
 
-chmod +x ${BASH_SOURCE[0]}/FTK_Initializer
-dos2unix ${BASH_SOURCE[0]}/FTK_Initializer
-cp ${BASH_SOURCE[0]}/FTK_Initializer /mnt/bin
+chmod +x $DIRECTORY/FTK_Initializer
+dos2unix $DIRECTORY/FTK_Initializer
+cp $DIRECTORY/FTK_Initializer /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
 
@@ -263,7 +265,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -ne "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ${BASH_SOURCE[0]}/FTK_Initializer
+arch-chroot /mnt $DIRECTORY/FTK_Initializer
 printSuccessOrFailure
 debug_WaitForValidation
 
