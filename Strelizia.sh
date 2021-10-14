@@ -221,7 +221,7 @@ debug_WaitForValidation
 
 ######################## Mirrorlist #########################
 
-echo -e "\n$logHeader Creating mirrorlist ... "
+echo -ne "\n$logHeader Creating mirrorlist ... "
 reflector --country 'France' -l 8 -p http --sort rate --save /etc/pacman.d/mirrorlist &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
@@ -230,7 +230,7 @@ debug_WaitForValidation
 
 ####################### Installation ########################
 
-echo -ne "\n$logHeader Installing basic packages ..."
+echo -ne "\n$logHeader Installing basic packages ... "
 pacstrap /mnt base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
