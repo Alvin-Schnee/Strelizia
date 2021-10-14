@@ -100,8 +100,6 @@ function generateKernelImage {
 function installBootloader {
 	echo -ne "\n$logHeader Installing bootloader ... "
 
-	pacman --noconfirm -Sy grub &> /dev/null
-
 	mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
 	mkdir /boot/efi/EFI/boot
