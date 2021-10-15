@@ -204,6 +204,9 @@ if [[ $(checkBootmode) = "BIOS" ]]; then
 	exit 1
 fi
 
+chmod +x StreliziaChroot.sh
+dos2unix StreliziaChroot.sh
+
 sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" StreliziaChroot.sh
 clear
 
