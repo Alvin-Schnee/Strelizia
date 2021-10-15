@@ -93,7 +93,7 @@ function setTimezone {
 
 function generateKernelImage {
 	echo -ne "\n$logHeader Generating kernel image ... "
-	mkinitcpio -p linux #&> /dev/null
+	mkinitcpio -p linux &> /dev/null
 	printSuccessOrFailure
 }
 
@@ -101,19 +101,19 @@ function installBootloader {
 	echo -ne "\n$logHeader Installing bootloader ... "
 
 	mount | grep efivars &> /dev/null || mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
+	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck &> /dev/null
 	mkdir /boot/efi/EFI/boot
 
 	cp /boot/efi/EFI/arch_grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
-	grub-mkconfig -o /boot/grub/grub.cfg
+	grub-mkconfig -o /boot/grub/grub.cfg &> /dev/null
 	printSuccessOrFailure
 }
 
 function initializeNetworkManager {
-	echo -e "\n$logHeader Initializing NetworkManager ..."
+	echo -e "\n$logHeader Initializing NetworkManager ... "
 	pacman --noconfirm -Sy networkmanager &> /dev/null
-	systemctl enable NetworkManager
-	echo -e "\n$logHeader NetworkManager ${GREEN}successfully${DEFAULT} initialized."
+	systemctl enable NetworkManager #&> /dev/null
+	printSuccessOrFailure
 }
 
 function createRootPassword {
