@@ -168,7 +168,7 @@ do
 
 			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
 				disk="$1"
-				#sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" /bin/FTK_Initializer
+				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" FTK_Initializer
 				echo "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
 				
 			else 
@@ -256,7 +256,7 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-cp FTK_Initializer.sh /mnt/bin
+cp FTK_Initializer /mnt/bin
 
 echo -e "\n$logHeader Initial installation is now over."
 
@@ -265,7 +265,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -ne "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt bin/FTK_Initializer.sh
+arch-chroot /mnt ./FTK_Initializer
 printSuccessOrFailure
 debug_WaitForValidation
 
