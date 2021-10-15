@@ -1,5 +1,10 @@
 #!/bin/zsh
 
+# Script Name   : Strelizia
+# Script Info   : Automatically handles an Archlinux deployment on a machine.
+# Script Ver.   : 1.0.0 (15 Oct. 2021)
+# Script Author : Alvin Schnee (FoxehCorp.)
+
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⢀⣠⣴⣿⣷⣶⣾⣶⣶⣶⣶⣦⣤⣀⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⢀⣠⣆⣤⣶⣦⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
@@ -36,8 +41,8 @@
 # rm -rf Strelizia/.git
 # chmod +x Strelizia/Strelizia.sh
 # dos2unix Strelizia/Strelizia.sh
-# chmod +x Strelizia/FTK_Initializer.sh
-# dos2unix Strelizia/FTK_Initializer.sh
+# chmod +x Strelizia/StreliziaChroot.sh
+# dos2unix Strelizia/StreliziaChroot.sh
 # cd Strelizia/
 # ./Strelizia.sh --disk /dev/sda
 # cd ..
@@ -168,7 +173,7 @@ do
 
 			if [[ $disk = $(lsblk -io KNAME | sed -n "/${disk}$/p") ]]; then
 				disk="$1"
-				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" FTK_Initializer
+				sed -i "s@REPLACE_WITH_DISK_VALUE@${disk}@g" StreliziaChroot
 				echo "$logHeader Installation disk ${GREEN}successfully${DEFAULT} set to $disk."
 				
 			else 
@@ -199,7 +204,7 @@ if [[ $(checkBootmode) = "BIOS" ]]; then
 	exit 1
 fi
 
-sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" FTK_Initializer.sh
+sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" StreliziaChroot.sh
 clear
 
 #############################################################
@@ -257,7 +262,7 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-cp FTK_Initializer.sh /mnt/bin/FTK_Initializer
+cp StreliziaChroot.sh /mnt/bin/StreliziaChroot
 
 echo -e "\n$logHeader Initial installation is now over."
 
@@ -266,7 +271,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -e "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ./bin/FTK_Initializer
+arch-chroot /mnt ./bin/StreliziaChroot
 
 #############################################################
 
@@ -284,6 +289,6 @@ sleep 1
 echo -ne "\n$logHeader Countdown before rebooting : 1\r"
 sleep 1
 echo -ne "\n$logHeader Rebooting ...                 \r"
-#reboot
+reboot
 
 #############################################################
