@@ -199,20 +199,20 @@ if [[ $(checkBootmode) = "BIOS" ]]; then
 	exit 1
 fi
 
-sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" FTK_Initializer
+sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" FTK_Initializer.sh
 clear
 
 #############################################################
 
 ####################### Partitioning ########################
 
-echo -ne "\n$logHeader Formatting partitions ... "
+echo -ne "\n$logHeader Formatting partitions ... \t"
 formatPartitions
 
-echo -ne "\n$logHeader Initializing swap ... "
+echo -ne "$logHeader Initializing swap ... \t"
 initializeSwap
 
-echo -ne "\n$logHeader Mounting partitions ... "
+echo -ne "$logHeader Mounting partitions ... \t"
 mountPartitions
 
 #############################################################
