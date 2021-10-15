@@ -267,14 +267,12 @@ echo -e "\n$logHeader Initial installation is now over."
 
 echo -ne "\n$logHeader Chrooting into the system ... "
 arch-chroot /mnt ./bin/FTK_Initializer
-printSuccessOrFailure
-debug_WaitForValidation
 
 #############################################################
 
 ####################### Finalization ########################
 
-echo -e "\n$logHeader Unmounting auxiliary devices ... "
+echo -ne "\n$logHeader Unmounting auxiliary devices ... "
 umount -R /mnt
 printSuccessOrFailure
 debug_WaitForValidation
@@ -286,6 +284,6 @@ sleep 1
 echo -ne "\n$logHeader Countdown before rebooting : 1\r"
 sleep 1
 echo -ne "\n$logHeader Rebooting ...                 \r"
-reboot
+#reboot
 
 #############################################################

@@ -110,9 +110,9 @@ function installBootloader {
 }
 
 function initializeNetworkManager {
-	echo -e "\n$logHeader Initializing NetworkManager ... "
+	echo -ne "\n$logHeader Initializing NetworkManager ... "
 	pacman --noconfirm -Sy networkmanager &> /dev/null
-	systemctl enable NetworkManager #&> /dev/null
+	systemctl enable NetworkManager &> /dev/null
 	printSuccessOrFailure
 }
 
