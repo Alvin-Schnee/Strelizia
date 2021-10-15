@@ -238,7 +238,7 @@ debug_WaitForValidation
 ####################### Installation ########################
 
 echo -ne "\n$logHeader Installing basic packages (this will take a while) ...    "
-pacstrap /mnt base base-devel pacman-contrib &> /dev/null
+pacstrap /mnt linux mkinitcpio base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 

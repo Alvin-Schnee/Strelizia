@@ -93,7 +93,6 @@ function setTimezone {
 
 function generateKernelImage {
 	echo -ne "\n$logHeader Generating kernel image ... "
-	pacman --noconfirm -Sy mkinitcpio &> /dev/null
 	mkinitcpio -p linux #&> /dev/null
 	printSuccessOrFailure
 }
