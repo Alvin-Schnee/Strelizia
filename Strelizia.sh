@@ -237,12 +237,12 @@ debug_WaitForValidation
 
 ####################### Installation ########################
 
-echo -ne "\n$logHeader Installing basic packages (this will take a while) ... \t"
+echo -ne "\n$logHeader Installing basic packages (this will take a while) ...    "
 pacstrap /mnt base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-echo -ne "$logHeader Installing advanced packages (this will take a while) ... \t"
+echo -ne "$logHeader Installing advanced packages (this will take a while) ... "
 pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation

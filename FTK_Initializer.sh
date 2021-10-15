@@ -66,7 +66,7 @@ function initializeLocales {
 	loadkeys fr-latin9 && echo -ne "KEYMAP=fr-latin9\nFONT=eurlatgr" > /etc/vconsole.conf
 	printSuccessOrFailure
 	
-	echo -ne "$logHeader Defining en_US.UTF-8 as default locale ... \t"
+	echo -ne "$logHeader Assigning locale (en_US.UTF-8) ... "
 	
 	echo -ne "LANG=en_US.UTF-8\nLC_COLLATE=C" > /etc/locale.conf	
 	sed -i '/^#en_US.UTF-8/ s/#//' /etc/locale.gen
@@ -93,6 +93,7 @@ function setTimezone {
 
 function generateKernelImage {
 	echo -ne "\n$logHeader Generating kernel image ... "
+	pacman --noconfirm -Sy mkinitcpio &> /dev/null
 	mkinitcpio -p linux #&> /dev/null
 	printSuccessOrFailure
 }
