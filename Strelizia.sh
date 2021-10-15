@@ -256,7 +256,7 @@ pacstrap /mnt grub os-prober efibootmgr &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-cp FTK_Initializer /mnt
+cp FTK_Initializer.sh /mnt/bin/FTK_Initializer
 
 echo -e "\n$logHeader Initial installation is now over."
 
