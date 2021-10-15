@@ -33,7 +33,7 @@ RED='\033[1;31m'
 DEFAULT='\033[0m'
 
 programName="REPLACE_WITH_PROGRAM_NAME"
-logHeader="${RED}$programName - CHROOT${DEFAULT} >"
+logHeader="${RED}$programName - Chroot${DEFAULT} >"
 
 DIRECTORY="$(cd "$(/usr/bin/dirname "${BASH_SOURCE[0]}")" && /bin/pwd)"
 
@@ -51,9 +51,9 @@ function checkBootmode {
 
 function printSuccessOrFailure {
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Done${DEFAULT}."
+        echo -e "[ ${GREEN}Done${DEFAULT} ]"
     else
-        echo -e "${RED}Failed${DEFAULT}. Exiting." 
+        echo -e "[ ${RED}Failed${DEFAULT} ]. Exiting." 
         exit 1
     fi
 }
@@ -61,18 +61,18 @@ function printSuccessOrFailure {
 #############################################################
 
 function initializeLocales {
-	echo -ne "\n$logHeader Loading keyboard layout ... "
+	echo -ne "\n$logHeader Loading keyboard layout ... \t"
 
 	loadkeys fr-latin9 && echo -ne "KEYMAP=fr-latin9\nFONT=eurlatgr" > /etc/vconsole.conf
 	printSuccessOrFailure
 	
-	echo -ne "$logHeader Setting up en_US.UTF-8 as default locale ... "
+	echo -ne "$logHeader Defining en_US.UTF-8 as default locale ... \t"
 	
 	echo -ne "LANG=en_US.UTF-8\nLC_COLLATE=C" > /etc/locale.conf	
 	sed -i '/^#en_US.UTF-8/ s/#//' /etc/locale.gen
 	printSuccessOrFailure
 
-	echo -ne "$logHeader Generating locales ... "
+	echo -ne "$logHeader Generating locales ... \t"
 	locale-gen &> /dev/null
 	printSuccessOrFailure
 }

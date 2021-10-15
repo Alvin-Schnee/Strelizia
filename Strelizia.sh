@@ -80,9 +80,9 @@ function debug_WaitForValidation {
 
 function printSuccessOrFailure {
     if [ $? -eq 0 ]; then
-        echo -e "\t[ ${GREEN}Done${DEFAULT} ]"
+        echo -e "[ ${GREEN}Done${DEFAULT} ]"
     else
-        echo -e "\t[ ${RED}Failed${DEFAULT} ]. Exiting." 
+        echo -e "[ ${RED}Failed${DEFAULT} ]. Exiting." 
         exit 1
     fi
 }
@@ -206,13 +206,13 @@ clear
 
 ####################### Partitioning ########################
 
-echo -ne "\n$logHeader Formatting partitions ... "
+echo -ne "\n$logHeader Formatting partitions ... \t"
 formatPartitions
 
-echo -ne "$logHeader Initializing swap ... "
+echo -ne "$logHeader Initializing swap ... \t"
 initializeSwap
 
-echo -ne "$logHeader Mounting partitions ... "
+echo -ne "$logHeader Mounting partitions ... \t"
 mountPartitions
 
 #############################################################
@@ -237,12 +237,12 @@ debug_WaitForValidation
 
 ####################### Installation ########################
 
-echo -ne "\n$logHeader Installing basic packages (this will take a while) ... "
+echo -ne "\n$logHeader Installing basic packages (this will take a while) ... \t"
 pacstrap /mnt base base-devel pacman-contrib &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
 
-echo -ne "\n$logHeader Installing advanced packages (this will take a while) ... "
+echo -ne "$logHeader Installing advanced packages (this will take a while) ... \t"
 pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion intel-ucode openssh &> /dev/null
 printSuccessOrFailure
 debug_WaitForValidation
