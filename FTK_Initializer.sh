@@ -72,7 +72,7 @@ function initializeLocales {
 	sed -i '/^#en_US.UTF-8/ s/#//' /etc/locale.gen
 	printSuccessOrFailure
 
-	echo -ne "$logHeader Generating locales ... \t"
+	echo -ne "$logHeader Generating locales ... \t\t"
 	locale-gen &> /dev/null
 	printSuccessOrFailure
 }
@@ -207,20 +207,23 @@ if [ $# -eq 0 ]; then
 	installBootloader
 	initializeNetworkManager
 
-	
+	echo -ne "\n$logHeader Enabling interactive mode in : 3"
+	sleep 1
+	echo -ne "\n$logHeader Enabling interactive mode in : 2"
+	sleep 1
+	echo -ne "\n$logHeader Enabling interactive mode in : 1"
+	sleep 1
 
-	#clear
-	#echo -e "\n$logHeader This machine's setup is almost complete. Enabling interactive mode."
-	#setHostname
-	#createRootPassword
-	#createUserAccount
-	#echo -e "\n$logHeader Required user input is now over. Disabling interactive mode."
-	#sleep 3
-	#clear
+	clear
+	echo -e "\n$logHeader This machine's setup is almost complete. Enabling interactive mode."
+	setHostname
+	createRootPassword
+	createUserAccount
+	echo -e "\n$logHeader Required user input is now over. Disabling interactive mode."
+	sleep 3
+	clear
 
-	
-	
-	#cp /etc/skel/.bash_profile /root/
+	cp /etc/skel/.bash_profile /root/
 
 elif [ "$1" == "-f" ]; then
 	username=$(ls /home | head -n1)
