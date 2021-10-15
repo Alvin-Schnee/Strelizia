@@ -199,6 +199,7 @@ if [[ $(checkBootmode) = "BIOS" ]]; then
 	exit 1
 fi
 
+sed -i "s@REPLACE_WITH_PROGRAM_NAME@${programName}@g" FTK_Initializer
 clear
 
 #############################################################

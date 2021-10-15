@@ -33,7 +33,7 @@ RED='\033[1;31m'
 DEFAULT='\033[0m'
 
 programName="REPLACE_WITH_PROGRAM_NAME"
-logHeader="${RED}$programName${DEFAULT} >"
+logHeader="${RED}$programName - CHROOT${DEFAULT} >"
 
 DIRECTORY="$(cd "$(/usr/bin/dirname "${BASH_SOURCE[0]}")" && /bin/pwd)"
 
