@@ -80,9 +80,9 @@ function debug_WaitForValidation {
 
 function printSuccessOrFailure {
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Done${DEFAULT}."
+        echo -e "\t[ ${GREEN}Done${DEFAULT} ]"
     else
-        echo -e "${RED}Failed${DEFAULT}. Exiting." 
+        echo -e "\t[ ${RED}Failed${DEFAULT} ]. Exiting." 
         exit 1
     fi
 }
@@ -206,13 +206,13 @@ clear
 
 ####################### Partitioning ########################
 
-echo -ne "\n$logHeader Formatting partitions ... \t"
+echo -ne "\n$logHeader Formatting partitions ... "
 formatPartitions
 
-echo -ne "$logHeader Initializing swap ... \t"
+echo -ne "$logHeader Initializing swap ... "
 initializeSwap
 
-echo -ne "$logHeader Mounting partitions ... \t"
+echo -ne "$logHeader Mounting partitions ... "
 mountPartitions
 
 #############################################################
