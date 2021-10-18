@@ -265,7 +265,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -e "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ./StreliziaChroot
+arch-chroot /mnt ./bin/StreliziaChroot
 
 #############################################################
 
