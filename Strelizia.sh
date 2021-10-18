@@ -34,20 +34,11 @@
 # pacman -Sy git github-cli dos2unix
 # gh auth login
 # gh repo clone Alvin-Schnee/Strelizia
-
-# #! /bin/zsh
-# rm -rf Strelizia/
-# gh repo clone Alvin-Schnee/Strelizia
 # rm -rf Strelizia/.git
 # chmod +x Strelizia/Strelizia.sh
 # dos2unix Strelizia/Strelizia.sh
-# chmod +x Strelizia/StreliziaChroot.sh
-# dos2unix Strelizia/StreliziaChroot.sh
 # cd Strelizia/
 # ./Strelizia.sh --disk /dev/sda
-# cd ..
-# swapoff /dev/sda2
-# umount -R /mnt
 
 ###################### Global Variables #####################
 
@@ -274,7 +265,7 @@ echo -e "\n$logHeader Initial installation is now over."
 ########################## Chroot ###########################
 
 echo -e "\n$logHeader Chrooting into the system ... "
-arch-chroot /mnt ./bin/StreliziaChroot
+arch-chroot /mnt ./StreliziaChroot
 
 #############################################################
 
