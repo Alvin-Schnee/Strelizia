@@ -86,7 +86,7 @@ function setHostname {
 	echo -ne "\n$logHeader Enter the machine's hostname : "
 	read hostname
 	echo "$hostname" > /etc/hostname
-	echo -ne "\n$logHeader The machine's hostname is now $hostname.\n"
+	echo -ne "$logHeader The machine's hostname is now $hostname.\n"
 }
 
 function setTimezone {

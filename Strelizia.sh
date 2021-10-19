@@ -2,7 +2,7 @@
 
 # Script Name   : Strelizia
 # Script Info   : Automatically handles an Archlinux deployment on a machine.
-# Script Ver.   : 1.0.0 (15 Oct. 2021)
+# Script Ver.   : 1.0.1 (19 Oct. 2021)
 # Script Author : Alvin Schnee (FoxehCorp.)
 
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
@@ -30,6 +30,8 @@
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠹⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 #⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠈⠙⠛⠛⠛⠛⠋⠁⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶
 
+# Clone from Git repo :
+
 # loadkeys fr-latin9
 # pacman -Sy git github-cli dos2unix
 # gh auth login
@@ -38,6 +40,16 @@
 # chmod +x Strelizia/Strelizia.sh
 # dos2unix Strelizia/Strelizia.sh
 # cd Strelizia/
+# ./Strelizia.sh --disk /dev/sda
+
+# Checkout from SVN repo :
+
+# loadkeys fr-latin9
+# pacman -Sy svn dos2unix
+# svn checkout svn://svn.creajeux.fr/jmarliere/Strelizia_Archinstaller
+# chmod +x Strelizia_Archinstaller/Strelizia.sh
+# dos2unix Strelizia_Archinstaller/Strelizia.sh
+# cd Strelizia_Archinstaller/
 # ./Strelizia.sh --disk /dev/sda
 
 ###################### Global Variables #####################
